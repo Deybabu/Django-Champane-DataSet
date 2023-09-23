@@ -2,6 +2,10 @@ from django.shortcuts import render, redirect
 from .forms import DateRangeForm
 import os
 import pickle
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
+
 def Home(request):
     if request.method == 'POST':
         form = DateRangeForm(request.POST)
@@ -17,8 +21,26 @@ def Home(request):
             start=form.cleaned_data['start_date']
             end=form.cleaned_data['end_date']
             predictions=loaded_model.predict(start,end)
-            print(predictions)   
-            return redirect('/')  # Redirect to a success page
+            print(predictions)  
+            
+            # Create a Matplotlib plot
+            plt.figure(figsize=(12, 6))
+            plt.plot(predictions, label='SARIMA Predictions', linestyle='--', color='red', marker='o')
+            plt.xlabel('Date')
+            plt.ylabel('Sales')
+            plt.title('SARIMA Predictions')
+            plt.grid(True)
+
+            # Save the plot as a BytesIO object
+            buffer = BytesIO()
+            plt.savefig(buffer, format='png')
+            buffer.seek(0)
+            plt.close()
+
+            # Convert the BytesIO object to base64 for embedding in HTML
+            plot_data = base64.b64encode(buffer.read()).decode('utf-8')
+             
+            return render(request, 'Home/index.html', {'form': form, 'plot_data': plot_data})  # Redirect to a success page
     else:
         form = DateRangeForm()
     

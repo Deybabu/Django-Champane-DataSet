@@ -4,7 +4,7 @@ Django==4.2.2
 matplotlib==3.6.0
 pandas==2.0.3
 
-scikit-learn
+scikit-learn==1.10.1
 scipy==1.11.1
 
 statsmodels==0.14.0

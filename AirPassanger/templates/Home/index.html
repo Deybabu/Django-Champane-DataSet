@@ -17,7 +17,7 @@
 
     <title>Home</title>
   </head>
-  <body style="padding-top: 10%;padding-left: 35%;background-color: #f5f7f8 !important; ">
+  <body style="padding-top: 5%;padding-left: 15%;background-color: #f5f7f8 !important; ">
 	<div class="container">
 	<div class="row">
 		<div class="col-md-4 col-md-offset-4">
@@ -32,9 +32,15 @@
     </button>
   {% endbuttons %}
 				</form>
+
+        {% if plot_data %}
+        <img src="data:image/png;base64,{{ plot_data }}" alt="SARIMA Predictions">
+        {% endif %}
 		</div>
 	</div>
 </div>
+    
+     <!-- Display the plot -->
     
 
     <!-- Optional JavaScript -->
